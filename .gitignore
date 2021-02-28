@@ -1,0 +1,8 @@
+/node_modules/
+/dist/
+/.env
+/aether.pid
+/aether.out
+/aether.err
+/crash.log
+/Set-PsEnv.psm1
