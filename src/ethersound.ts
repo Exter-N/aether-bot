@@ -56,13 +56,15 @@ export class EtherSoundRoot {
     }
 }
 
-type EtherSoundSessionWritableProperty = 'color' | 'masterVolume' | 'muted' | 'maxMasterVolume' | 'silenceThreshold' | 'averagingWeight' | 'saturationThreshold' | 'saturationDebounceFactor' | 'saturationRecoveryFactor';
-type EtherSoundSessionReadableProperty = 'persistentId' | 'name' | 'valid' | 'sampleRate' | 'channelMask' | 'monitorVolume' | 'tapWriteCursorDelta' | EtherSoundSessionWritableProperty;
+type EtherSoundSessionWritableProperty = 'customName' | 'color' | 'masterVolume' | 'muted' | 'maxMasterVolume' | 'silenceThreshold' | 'averagingWeight' | 'saturationThreshold' | 'saturationDebounceFactor' | 'saturationRecoveryFactor';
+type EtherSoundSessionReadableProperty = 'persistentId' | 'sourceName' | 'name' | 'valid' | 'sampleRate' | 'channelMask' | 'monitorVolume' | 'tapWriteCursorDelta' | EtherSoundSessionWritableProperty;
 
 export class EtherSoundSession {
     id: number;
     channels: Map<number, EtherSoundChannel>;
     persistentId?: string;
+    sourceName?: string;
+    customName?: string;
     name?: string;
     valid?: boolean;
     color?: number;
