@@ -45,10 +45,11 @@ export interface SessionConfiguration {
 }
 
 type EtherSoundRootWritableProperty = 'muted';
-type EtherSoundRootReadableProperty = 'masterVolume' | EtherSoundRootWritableProperty;
+type EtherSoundRootReadableProperty = 'version' | 'masterVolume' | EtherSoundRootWritableProperty;
 
 export class EtherSoundRoot {
     sessions: EtherSoundSession[];
+    version?: string;
     masterVolume?: number;
     muted?: boolean;
     constructor() {
