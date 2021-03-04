@@ -44,6 +44,15 @@ export interface SessionConfiguration {
     NetworkSink?: NetworkSinkConfiguration | null;
 }
 
+export interface DirectTapInfo {
+    SharedMemoryName?: string;
+    TapOffset?: number;
+    TapWriteCursorOffset?: number;
+    TapCapacityOffset?: number;
+    SampleRateOffset?: number;
+    ChannelMaskOffset?: number;
+}
+
 type EtherSoundRootWritableProperty = 'muted';
 type EtherSoundRootReadableProperty = 'version' | 'masterVolume' | EtherSoundRootWritableProperty;
 
@@ -57,17 +66,21 @@ export class EtherSoundRoot {
     }
 }
 
-type EtherSoundSessionWritableProperty = 'customName' | 'color' | 'masterVolume' | 'muted' | 'maxMasterVolume' | 'silenceThreshold' | 'averagingWeight' | 'saturationThreshold' | 'saturationDebounceFactor' | 'saturationRecoveryFactor';
-type EtherSoundSessionReadableProperty = 'persistentId' | 'sourceName' | 'name' | 'valid' | 'sampleRate' | 'channelMask' | 'monitorVolume' | 'tapWriteCursorDelta' | EtherSoundSessionWritableProperty;
+type EtherSoundSessionWritableProperty = 'customName' | 'showInMixer' | 'color' | 'masterVolume' | 'muted' | 'maxMasterVolume' | 'silenceThreshold' | 'averagingWeight' | 'saturationThreshold' | 'saturationDebounceFactor' | 'saturationRecoveryFactor';
+type EtherSoundSessionReadableProperty = 'persistentId' | 'sourceName' | 'withWASSink' | 'withNetworkSink' | 'withTapStream' | 'name' | 'valid' | 'sampleRate' | 'channelMask' | 'saturationEffectiveVolume' | 'monitorVolume' | 'tapWriteCursorDelta' | EtherSoundSessionWritableProperty;
 
 export class EtherSoundSession {
     id: number;
     channels: Map<number, EtherSoundChannel>;
     persistentId?: string;
     sourceName?: string;
+    withWASSink?: boolean;
+    withNetworkSink?: boolean;
+    withTapStream?: boolean;
     customName?: string;
     name?: string;
     valid?: boolean;
+    showInMixer?: boolean;
     color?: number;
     masterVolume?: number;
     muted?: boolean;
@@ -79,6 +92,7 @@ export class EtherSoundSession {
     saturationThreshold?: number;
     saturationDebounceFactor?: number;
     saturationRecoveryFactor?: number;
+    saturationEffectiveVolume?: number;
     monitorVolume?: number;
     tapWriteCursorDelta?: number;
     constructor(id: number) {
@@ -371,5 +385,8 @@ export class EtherSoundClient extends EventEmitter {
     }
     closeTapStream(session: number): Promise<void> {
         return this.invoke('CloseTapStream', { Session: session });
+    }
+    queryDirectTapInfo(session: number): Promise<DirectTapInfo> {
+        return this.invoke('QueryDirectTapInfo', { Session: session });
     }
 }
