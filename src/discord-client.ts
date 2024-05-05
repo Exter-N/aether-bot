@@ -1,16 +1,12 @@
-import { Client, Intents } from 'discord.js';
+import { Client, GatewayIntentBits, Partials } from 'discord.js';
 
 if (null == process.env.DISCORD_TOKEN) {
     throw new Error('Missing environment variable DISCORD_TOKEN');
 }
 
 export const client: Client = new Client({
-    messageCacheLifetime: 900,
-    messageSweepInterval: 300,
-    partials: [ 'MESSAGE', 'CHANNEL', 'REACTION', 'USER', 'GUILD_MEMBER' ],
-    ws: {
-        intents: Intents.FLAGS.GUILDS | Intents.FLAGS.GUILD_VOICE_STATES,
-    },
+    partials: [ Partials.Message, Partials.Channel, Partials.User, Partials.GuildMember ],
+    intents: [ GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates ],
 });
 
 process.nextTick(() => {
