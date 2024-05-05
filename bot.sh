@@ -8,4 +8,4 @@ set -o allexport
 [ -r .env ] && source .env
 set +o allexport
 
-exec npm start
+exec node --enable-source-maps dist
